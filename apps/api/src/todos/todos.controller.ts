@@ -1,12 +1,13 @@
-import { Controller, Get } from '@nestjs/common';
-import type { TodosService } from './todos.service';
+import { Controller, Param, Post } from '@nestjs/common';
+import { TodosService } from './todos.service';
 
 @Controller('todos')
 export class TodosController {
-  constructor(private readonly todosService: TodosService) {}
-  @Get()
-  async findAll() {
-    // return this.todosService.findAll();
-    return this.todosService.test();
+  constructor(private readonly todoService: TodosService) {}
+
+  @Post(':id/complete')
+  async completeTodo(@Param('id') id: string) {
+    await this.todoService.markAsComplete(id);
+    return { message: 'Todo marked as complete' };
   }
 }
