@@ -2,25 +2,29 @@ import { Injectable } from '@nestjs/common';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 import { EventsGateway } from 'src/events/events.gateway';
-import { DrizzleService } from 'src/drizzle/drizzle.service';
+import { EntityRepository } from '@mikro-orm/core';
+import { InjectRepository } from '@mikro-orm/nestjs';
+import TodoEntity from './entities/todo.entity';
 
 @Injectable()
 export class TodosService {
   constructor(
-    private readonly drizzleService: DrizzleService,
+    @InjectRepository(TodoEntity)
+    private readonly todoRepository: EntityRepository<TodoEntity>,
     private readonly eventsGateway: EventsGateway,
   ) {}
 
-  create(createTodoDto: CreateTodoDto) {
-    return 'This action adds a new todo';
+  async create(todo: CreateTodoDto) {
+    const newPost = await this.todoRepository.create(todo);
+    return newPost;
   }
 
   findAll() {
-    return `This action returns all todos`;
+    return this.todoRepository.findAll();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} todo`;
+    return this.todoRepository.findOne(id);
   }
 
   update(id: number, updateTodoDto: UpdateTodoDto) {

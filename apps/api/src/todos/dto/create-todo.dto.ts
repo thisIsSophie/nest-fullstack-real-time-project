@@ -1,1 +1,7 @@
-export class CreateTodoDto {}
+import { IsNotEmpty } from 'class-validator';
+
+export class CreateTodoDto {
+  @IsNotEmpty()
+  title!: string;
+  content?: string;
+}
