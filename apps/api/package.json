@@ -39,7 +39,6 @@
     "dotenv": "^16.4.5",
     "install": "^0.13.0",
     "joi": "^17.13.3",
-    "node@": "link:types/node@",
     "pg": "^8.12.0",
     "reflect-metadata": "^0.1.14",
     "rxjs": "^7.8.1",

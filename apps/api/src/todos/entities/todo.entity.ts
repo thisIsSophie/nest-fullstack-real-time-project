@@ -1,14 +1,12 @@
-import { Entity, Property, PrimaryKey, Opt } from '@mikro-orm/core';
+import { Entity, Property, Opt } from '@mikro-orm/core';
+import { EntityBase } from '../../database/base.entity';
 
 @Entity()
-class TodoEntity {
-  @PrimaryKey()
-  id!: number;
-
-  @Property()
+class TodoEntity extends EntityBase {
+  @Property({type: 'text'})
   title: string;
 
-  @Property({ nullable: true })
+  @Property({  type: 'text', nullable: true })
   content?: Opt<string>;
 }
 
