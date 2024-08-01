@@ -1,13 +1,48 @@
-import { Controller, Param, Post } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { TodosService } from './todos.service';
+import { CreateTodoDto } from './dto/create-todo.dto';
+import { UpdateTodoDto } from './dto/update-todo.dto';
 
 @Controller('todos')
 export class TodosController {
-  constructor(private readonly todoService: TodosService) {}
+  constructor(private readonly todosService: TodosService) {}
+
+  @Post()
+  create(@Body() createTodoDto: CreateTodoDto) {
+    return this.todosService.create(createTodoDto);
+  }
 
   @Post(':id/complete')
   async completeTodo(@Param('id') id: string) {
-    await this.todoService.markAsComplete(id);
+    await this.todosService.markAsComplete(+id);
     return { message: 'Todo marked as complete' };
+  }
+
+  @Get()
+  findAll() {
+    return this.todosService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.todosService.findOne(+id);
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() updateTodoDto: UpdateTodoDto) {
+    return this.todosService.update(+id, updateTodoDto);
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.todosService.remove(+id);
   }
 }

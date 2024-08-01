@@ -18,14 +18,8 @@ export class EventsGateway
 
   @WebSocketServer() server: Server;
 
-  // constructor(@Inject() private readonly redisService: RedisService) {}
-
   afterInit() {
     this.logger.log('Initialized');
-
-    // this.redisService.subscribe('todo_completed', (data: { id: string }) => {
-    //   this.server.emit('todoCompleted', data);
-    // });
   }
 
   handleConnection(client: Socket) {

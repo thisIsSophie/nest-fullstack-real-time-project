@@ -51,4 +51,4 @@ RUN adduser --system --uid 1001 nestjs
 USER nestjs
 COPY --from=installer /app .
 
-CMD node apps/api/dist/index.js
+CMD [ "npm", "run", "start:prod" ]
