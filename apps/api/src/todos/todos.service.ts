@@ -4,18 +4,21 @@ import { UpdateTodoDto } from './dto/update-todo.dto';
 import { EventsGateway } from 'src/events/events.gateway';
 import { EntityRepository } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
-import TodoEntity from './entities/todo.entity';
+import TodoEntity from './todo.entity';
+import { EntityManager } from '@mikro-orm/postgresql';
 
 @Injectable()
 export class TodosService {
   constructor(
     @InjectRepository(TodoEntity)
     private readonly todoRepository: EntityRepository<TodoEntity>,
+    private readonly em: EntityManager,
     private readonly eventsGateway: EventsGateway,
   ) {}
 
   async create(todo: CreateTodoDto) {
     const newPost = await this.todoRepository.create(todo);
+    await this.em.persistAndFlush(newPost);
     return newPost;
   }
 

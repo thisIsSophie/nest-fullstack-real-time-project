@@ -10,7 +10,7 @@ import {
 
 import { Server, type Socket } from 'socket.io';
 
-@WebSocketGateway()
+@WebSocketGateway({ cors: true })
 export class EventsGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
@@ -33,13 +33,10 @@ export class EventsGateway
     this.logger.log(`Cliend id:${client.id} disconnected`);
   }
 
-  @SubscribeMessage('ping')
-  handleMessage(client: Socket, data: unknown) {
+  @SubscribeMessage('message')
+  handlePing(client: Socket, data: string) {
     this.logger.log(`Message received from client id: ${client.id}`);
     this.logger.debug(`Payload: ${data}`);
-    return {
-      event: 'pong',
-      data,
-    };
+    this.server.emit('message', data);
   }
 }

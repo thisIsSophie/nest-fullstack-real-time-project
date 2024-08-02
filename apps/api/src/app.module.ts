@@ -10,6 +10,9 @@ import { ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { MikroORM } from '@mikro-orm/core';
 import { MikroOrmMiddleware, MikroOrmModule } from '@mikro-orm/nestjs';
+import { GroupsModule } from './groups/groups.module';
+import { UsersModule } from './users/users.module';
+import { GroupsService } from './groups/groups.service';
 
 @Module({
   imports: [
@@ -26,7 +29,10 @@ import { MikroOrmMiddleware, MikroOrmModule } from '@mikro-orm/nestjs';
         POSTGRES_DB: Joi.string().required(),
       }),
     }),
+    GroupsModule,
+    UsersModule,
   ],
+  providers: [GroupsService],
 })
 export class AppModule implements NestModule, OnModuleInit {
   constructor(private readonly orm: MikroORM) {}

@@ -1,7 +1,8 @@
 import { Entity, PrimaryKey, Property } from "@mikro-orm/core";
 
-@Entity({ abstract: true })
+@Entity({ abstract: true})
 export abstract class EntityBase {
+
     @PrimaryKey()
     id!: number;
 
